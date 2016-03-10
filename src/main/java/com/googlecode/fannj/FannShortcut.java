@@ -28,6 +28,36 @@ import java.util.List;
  * @author krenfro, brandstaetter
  */
 public class FannShortcut extends Fann {
+	/**
+	 * Load an existing FANN definition from a file
+	 * 
+	 * @param file
+	 */
+	public FannShortcut(String file) {
+		ann = fann_create_from_file(file);
+	}
+
+    /**
+     * Create a new ANN with just the input and output layers for Cascade
+     * Training
+     * 
+     * @param inputs
+     *            The number of input neurons
+     * @param outputs
+     *            The number of output neurons
+     */
+	public FannShortcut(int inputs, int outputs, int hidden, int num_layers) {
+		try {
+			int[] layers = new int[num_layers];
+			layers[0] = inputs;
+			for(int i=1; i<num_layers; i++)
+				layers[i]=hidden;
+			layers[num_layers-1] = outputs;
+			ann = fann_create_shortcut_array(num_layers, layers);
+		} catch(Exception e) {
+			System.out.println(e.toString());
+		}
+	}
 
     public FannShortcut(List<Layer> layers) {
 

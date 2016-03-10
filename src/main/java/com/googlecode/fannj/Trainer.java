@@ -51,6 +51,8 @@ public class Trainer {
     public Trainer(Fann fann) {
         this.fann = fann;
     }
+    
+    private Pointer data;
 
     /**
      * @param trainingFile
@@ -165,4 +167,31 @@ public class Trainer {
      *            the training/testing data to deallocate
      */
     protected static native void fann_destroy_train(Pointer data);
+
+    /**
+     * Creates an empty training data struct.
+     * 
+     * You must call {@link #fann_destroy_train(Pointer)} on the {@link Pointer}
+     * you get from this after you have finished with it
+     * 
+     * @param num_data
+     *            Number of data sets
+     * @param num_input
+     *            Number of input perceptrons
+     * @param num_output
+     *            Number of output perceptrons
+     * @return pointer to the data
+     *         {@link #fann_create_train(int,int,int)}
+     */
+    protected static native Pointer fann_create_train(int num_data, int num_input, int num_output);
+
+	public void addToDataSet(float[] input_array_FANN_aLL, float[] output_FANN) {	
+	}
+	
+	public void startTrainingFromDataset() {
+		int num_data = 1;
+		int num_input = 5;
+		int num_output = 1;
+		data = fann_create_train(num_data, num_input, num_output);
+	}
 }
